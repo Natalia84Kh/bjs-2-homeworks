@@ -21,17 +21,17 @@ function solveEquation(a, b, c) {
 function calculateTotalMortgage(percent, contribution, amount, date) {
   let totalAmount;
 
-  if (typeof percent !== Number) {
+  if (Number.isNaN(parseInt(percent))) {
     return `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
-  } else if (typeof contribution !== Number) {
+  } else if (Number.isNaN(parseInt(contribution))) {
       return `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
-    } else if (typeof amount !== Number) {
+    } else if (Number.isNaN(parseInt(amount))) {
       return `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
       } else {
         let s =  (amount - contribution);
-        let p = (percent / 12 * 100);
+        let p = (percent / 12) / 100;
         let today = new Date();
-        let n = (14 -today.getMonth()) + date.getMonth();
+        let n = (date.getFullYear() - today.getFullYear()) * 12 - (date.getMonth() + today.getMonth());
         totalAmount = (s * (p + p / (((1 + p) ** n) - 1))) * n; 
           
         return (+totalAmount.toFixed(2));
