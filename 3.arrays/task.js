@@ -1,6 +1,6 @@
 function compareArrays(arr1, arr2) {
  
-  return every(item, arr1) === every(item, arr2); // boolean  
+  return arr1.every((item, index, arr) => item && index && arr.length) === arr2.every((item, index, arr) => item && index && arr.length); // boolean  
 };
 
 function advancedFilter(arr) {
