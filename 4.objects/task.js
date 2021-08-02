@@ -13,17 +13,15 @@ Student.prototype.addMark = function (mark) {
   if (this.marks === undefined) {
     this.marks = [mark];
   } else {
-    [mark].push(mark);
-  }
-  return this.marks;
-}
+    this.marks.push(mark);
+    }
+ }
 
 Student.prototype.addMarks = function (...marks) {
-  this.marks = [mark];
+  this.marks = [...marks];
   for (let mark of marks) {
-    [mark].push(mark);
+    this.marks.push(mark);
   }
-  return this.marks;
 }
 
 Student.prototype.getAverage = function () {
@@ -34,10 +32,10 @@ Student.prototype.getAverage = function () {
   return sum / this.marks.length;
 }
 
-Student.prototype.exlude = function (reason) {
+Student.prototype.exсlude = function (reason) {
   delete this.subject;
   delete this.marks;
-  this.exluded = "Low grades";
+  this.excluded = reason;
 }
 
 // const student1 = new Student ("Daria", "female", 18);
