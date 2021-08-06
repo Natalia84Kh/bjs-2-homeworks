@@ -75,13 +75,17 @@ class Library {
 
     addBook(book){
         if (book.state > 30) {
-            this.books = this.books.push(book);
+            this.books.push(book);
         }
     }
 
     findBookBy(type, value) {
-        if (this.books.find(item => item.type === value)) {
-            return item;
+        // if (this.type === null) {
+        //     return null;
+        // }
+        let findedExample = this.books.find(item => item[type] === value);
+        if (findedExample !== undefined) {
+            return findedExample.name;
         } else {
             return null;
         }
@@ -89,10 +93,58 @@ class Library {
     
     giveBookByName(bookName) {
        if (this.books.indexOf(bookName) >= 0) {
-            this.books.splice(this.books.indexOf(bookName));
+            this.books.splice(this.books.indexOf(bookName), 1);
             return bookName;
         } else {
             return null;
         }
     }
 }
+
+// Задание 3
+class Student {
+    constructor (name) {
+        this.name = name;
+    }
+
+    addGrade (subject, mark) {
+        if ((mark < 1) && (mark > 5)) {
+            return console.log ("Ошибка, оценка должна быть числом от 1 до 5");
+        }
+        if (this.marks === undefined || this.subjects === undefined) {
+            this.marks = [mark];
+            this.subjects = [subject = {
+                                grades : [mark],
+                            }]
+        } else {
+            this.marks.push(mark);
+            this.subjects.subject.grades.push(mark);
+        }
+    }
+
+    getAverageBySubject (subject) {
+        if(this.subjects.subject === undefined) {
+            return console.log("Несуществующий предмет");
+        }
+        let sum = 0;
+        for (let mark of this.subjects.subject.grades) {
+            sum += mark;
+        }
+        return sum / this.subjects.subject.grades.length;
+    }
+
+    getAverage() {
+        let sum = 0;
+        for (let mark of this.marks) {
+          sum += mark;
+        }
+        return sum / this.marks.length;
+      }
+
+      exсlude(reason) {
+        delete this.subjects;
+        delete this.marks;
+        this.excluded = reason;
+      }
+
+};
