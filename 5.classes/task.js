@@ -105,41 +105,51 @@ class Library {
 class Student {
     constructor (name) {
         this.name = name;
+        this.marks = [];
+        this.subjects = [];
     }
 
     addGrade (subject, mark) {
-        if ((mark < 1) && (mark > 5)) {
+        if ((mark < 1) || (mark > 5)) {
             return console.log ("Ошибка, оценка должна быть числом от 1 до 5");
         }
-        if (this.marks === undefined || this.subjects === undefined) {
-            this.marks = [mark];
-            this.subjects = [subject = {
-                                grades : [mark],
-                            }]
+        this.marks.push(mark);
+        this.subjects.push(subject);
+
+        if ( this[subject] === undefined) {
+            this[subject] = {marks : []};
         } else {
-            this.marks.push(mark);
-            this.subjects.subject.grades.push(mark);
+            this[subject].marks.push(mark);
         }
     }
 
     getAverageBySubject (subject) {
-        if(this.subjects.subject === undefined) {
+        if(this[subject] === undefined) {
             return console.log("Несуществующий предмет");
         }
         let sum = 0;
-        for (let mark of this.subjects.subject.grades) {
-            sum += mark;
+        for (let grade of this[subject].marks) {
+            sum += grade;
         }
-        return sum / this.subjects.subject.grades.length;
+        return sum / this[subject].marks.length;
     }
 
     getAverage() {
         let sum = 0;
-        for (let mark of this.marks) {
-          sum += mark;
+        for (let subject of this.subjects) {
+          sum += getAverageBySubject(); 
         }
-        return sum / this.marks.length;
+        return sum / this.subjects.length;
       }
+
+    //   getAverage() {
+    //     let sum = 0;
+    //     for (let mark of this.marks) {
+    //       sum += mark;
+    //     }
+    //     return sum / this.marks.length;
+    //   }
+
 
       exсlude(reason) {
         delete this.subjects;
