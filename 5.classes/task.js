@@ -85,7 +85,7 @@ class Library {
         // }
         let findedExample = this.books.find(item => item[type] === value);
         if (findedExample !== undefined) {
-            return findedExample.name;
+            return findedExample;
         } else {
             return null;
         }
@@ -93,8 +93,7 @@ class Library {
     
     giveBookByName(bookName) {
        if (this.books.indexOf(bookName) >= 0) {
-            this.books.splice(this.books.indexOf(bookName), 1);
-            return bookName;
+        return this.books.splice(this.books.indexOf(bookName), 1);
         } else {
             return null;
         }
@@ -105,51 +104,41 @@ class Library {
 class Student {
     constructor (name) {
         this.name = name;
-        this.marks = [];
-        this.subjects = [];
+        this.marks = {};
     }
 
     addGrade (subject, mark) {
         if ((mark < 1) || (mark > 5)) {
             return console.log ("Ошибка, оценка должна быть числом от 1 до 5");
         }
-        this.marks.push(mark);
-        this.subjects.push(subject);
+        // this.marks.push(mark);
+        // this.subjects.push(subject);
 
-        if ( this[subject] === undefined) {
-            this[subject] = {marks : []};
+        if ( this.marks.hasOwnProperty(subject) === false) {
+            this.marks[subject] = [mark];
         } else {
-            this[subject].marks.push(mark);
+            this.marks[subject].push(mark);
         }
     }
 
     getAverageBySubject (subject) {
-        if(this[subject] === undefined) {
+        if ( this.marks.hasOwnProperty(subject) === false) {
             return console.log("Несуществующий предмет");
         }
         let sum = 0;
-        for (let grade of this[subject].marks) {
-            sum += grade;
+        for (let mark of this.marks[subject]) {
+            sum += mark;
         }
-        return sum / this[subject].marks.length;
+        return sum / this.marks[subject].length;
     }
 
     getAverage() {
         let sum = 0;
-        for (let subject of this.subjects) {
-          sum += getAverageBySubject(); 
+        for (let subject of Object.keys(this.marks)) {
+          sum += getAverageBySubject(subject); 
         }
-        return sum / this.subjects.length;
+        return sum / Object.keys(this.marks).length;
       }
-
-    //   getAverage() {
-    //     let sum = 0;
-    //     for (let mark of this.marks) {
-    //       sum += mark;
-    //     }
-    //     return sum / this.marks.length;
-    //   }
-
 
       exсlude(reason) {
         delete this.subjects;
