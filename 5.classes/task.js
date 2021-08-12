@@ -92,12 +92,17 @@ class Library {
     }
     
     giveBookByName(bookName) {
-       if (this.books.indexOf(bookName) >= 0) {
-        return this.books.splice(this.books.indexOf(bookName), 1);
-        } else {
-            return null;
+        let fb = this.books.find(item => item.name === bookName)
+        if (fb !== undefined) {
+            let fbIndex = this.books.indexOf(fb);
+            if(fbIndex >= 0){
+                return this.books.splice(fbIndex, 1);
+            } else {
+                return null;
+            }    
         }
     }
+
 }
 
 // Задание 3
@@ -107,13 +112,10 @@ class Student {
         this.marks = {};
     }
 
-    addGrade (subject, mark) {
+    addGrade (mark, subject) {
         if ((mark < 1) || (mark > 5)) {
             return console.log ("Ошибка, оценка должна быть числом от 1 до 5");
         }
-        // this.marks.push(mark);
-        // this.subjects.push(subject);
-
         if ( this.marks.hasOwnProperty(subject) === false) {
             this.marks[subject] = [mark];
         } else {
