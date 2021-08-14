@@ -80,9 +80,6 @@ class Library {
     }
 
     findBookBy(type, value) {
-        // if (this.type === null) {
-        //     return null;
-        // }
         let findedExample = this.books.find(item => item[type] === value);
         if (findedExample !== undefined) {
             return findedExample;
@@ -94,16 +91,16 @@ class Library {
     giveBookByName(bookName) {
         let fb = this.books.find(item => item.name === bookName)
         if (fb !== undefined) {
-            let fbIndex = this.books.indexOf(fb);
-            if(fbIndex >= 0){
-                return this.books.splice(fbIndex, 1);
-            } else {
-                return null;
-            }    
-        }
-    }
+          let fbIndex = this.books.indexOf(fb);
+          this.books.splice(fbIndex, 1);
+          return fb;
+        } 
+        return null;
+    }    
+        
 
 }
+
 
 // Задание 3
 class Student {
@@ -136,8 +133,8 @@ class Student {
 
     getAverage() {
         let sum = 0;
-        for (let subject of Object.keys(this.marks)) {
-          sum += getAverageBySubject(subject); 
+        for (const key of Object.keys(this.marks)) {
+          sum += getAverageBySubject(key); 
         }
         return sum / Object.keys(this.marks).length;
       }
