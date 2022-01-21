@@ -1,61 +1,64 @@
 "user strick"
-parseCount = (num) => {
-    let a = Number.parseInt(num);
-    if (Number.isNaN(a)) {
-        throw new Error ("Невалидное значение");
-    }
-    return a;
-};
-
-validateCount = (n) => {
-    try { 
-        return parseCount(n);
-    } catch (error) {
-        return error;
-    }
-};
-
-class Triangle {
-
-    constructor (a, b, c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    
-    if (((a + b) < c) || ((a + c ) < b) || ((b + c) < a)) {
-        throw new Error ("Треугольник с такими сторонами не существует"); 
-    }
+ class AlarmClock {
+    constructor() {
+        this.alarmCollection = [];
+        this.timerId = null;
     }
 
-    getPerimeter (a, b, c) {
-        if (((a + b) < c) || ((a + c ) < b) || ((b + c) < a)) {
-            console.log ('Ошибка! Треугольник не существует')
+    addClock (time, fun, id){
+        if(id === undefined) {
+            throw new Error ('error text');
+        } else if (this.alarmCollection.find(item => item.id === id)) {
+            console.error();
+            return;
+        } else {
+            return this.alarmCollection.unshift({time, fun, id});
         }
-        return (a + b + c);
     }
 
-    getArea (a, b, c) {
-        if (((a + b) < c) || ((a + c ) < b) || ((b + c) < a)) {
-            console.log ('Ошибка! Треугольник не существует')
+    removeClock(id) {
+        let lenghOfAlarmCollection = this.alarmCollection.length;
+        this.alarmCollection = this.alarmCollection.filter((item) => item.id !== id); 
+        if (this.alarmCollection.length < lenghOfAlarmCollection) {    
+            return true;
+        } else {
+            return false;
         }
-        let hp = (this.getPerimeter(a, b, c)) / 2;
-        let square = Math.sqrt(hp * (hp - a) * (hp - b) * (hp - c));
-        return square.toFixed(3);
     }
-};
 
-function getTriangle (a, b, c) {
-    try {
-        return new Triangle (a, b, c);
-    } catch {
-        return { 
-            getPerimeter(a, b, c) {
-                return "Ошибка! Треугольник не существует";
-            },
-            getArea(a, b, c) {
-                return "Ошибка! Треугольник не существует";
+    getCurrentFormattedTime() {
+        let date = new Date;
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        return (`${hours}:${minutes}`);
+    }
+
+    start () {
+        function checkClock(time, fun, id) {
+            if (getCurrentFormattedTime() === time) {
+                return fun();
             }
-            };
-        
+        }
+        if (this.timerId === null) {
+            const f = () => this.alarmCollection.forEach(checkClock());
+            this.timerId = setInterval(f, 1000); 
+        }
     }
-};
+
+    stop () {
+        if (this.timerId !== null) {
+            clearInterval(this.timerId);
+            this.timerId = null;
+        }
+    }
+
+    printAlarms () {
+        this.alarmCollection.forEach(item => console.log(item.id, item.time));
+        }
+    
+
+    clearAlarms () {
+        clearInterval(this.timerId);
+        this.alarmCollection.length = 0;
+    }
+}
